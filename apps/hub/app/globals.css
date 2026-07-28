@@ -1,3 +1,25 @@
+/*
+ * Float.us hub — Saltbox-language design tokens.
+ * This app intentionally diverges from the shared @float/ui dark
+ * "midnight-ocean" tokens (see packages/ui/tokens/tokens.css, still used by
+ * apps/moving) in favor of the approved light Saltbox palette below.
+ */
+:root {
+  --bg: #F3F6F8;
+  --bg-panel: #E9EFF0;
+  --card: #FFFFFF;
+  --navy: #0b1a2b;
+  --navy-soft: #274158;
+  --ink: #0b1a2b;
+  --ink-dim: #4d6072;
+  --ink-mute: #8698a8;
+  --teal: #1fb894;
+  --teal-deep: #0d8a6b;
+  --cyan: #3fc4ea;
+  --line: rgba(11, 26, 43, 0.10);
+  --line-strong: rgba(11, 26, 43, 0.18);
+}
+
 html {
   height: 100%;
 }
@@ -10,11 +32,19 @@ body {
 
 body {
   min-height: 100%;
-  background: var(--float-bg);
-  color: var(--float-text);
-  font-family: var(--float-font-body);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--teal-deep);
 }
 
 * {
@@ -42,5 +72,9 @@ a {
 
 img {
   max-width: 100%;
+  display: block;
+}
+
+svg {
   display: block;
 }

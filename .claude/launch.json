@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "float-hub",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:hub"],
+      "port": 3010
+    }
+  ]
+}

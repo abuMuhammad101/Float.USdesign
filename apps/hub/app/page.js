@@ -1,278 +1,801 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Badge,
-  Button,
-  IncentiveBanner,
-  Section,
-  SectionHeading,
-  SiteFooter,
-  SiteHeader,
-  StatBand,
-  TestimonialCarousel,
-  TrustGrid,
-} from "@float/ui";
 import { services } from "../lib/services";
 import styles from "./page.module.css";
 
-// Mock figures for the incentive banner and stat band — wire these to the
-// real booking ledger once each sub-site reports back to a shared store.
-// See ../../../README.md "What's stubbed" section.
-const REWARD_ENTRIES = 8240;
-const REWARD_GOAL = 15000;
+// Mock figures — wire these to the real booking ledger once each sub-site
+// reports back to a shared store. See ../../../README.md "What's stubbed".
+const CUSTOMER_COUNT = "2,400+";
 
-const STATS = [
-  { value: "500+", label: "Jobs Completed" },
-  { value: "350+", label: "Happy Customers" },
-  { value: "4.9★", label: "Average Rating" },
-  { value: "6 Yrs", label: "In Business" },
+const CITIES = [
+  "Jacksonville",
+  "Ponte Vedra Beach",
+  "Atlantic Beach",
+  "Neptune Beach",
+  "St Augustine",
+  "Fernandina Beach",
+  "Orange Park",
+  "Mandarin",
 ];
 
-const TRUST_ITEMS = [
+const movingHref = services.find((s) => s.key === "moving")?.href ?? "#";
+const towingHref = services.find((s) => s.key === "towing")?.href ?? "#";
+const fishingHref = services.find((s) => s.key === "fishing")?.href ?? "#";
+const detailingHref = services.find((s) => s.key === "detailing")?.href ?? "#";
+
+const OFFER_CARDS = [
   {
-    icon: "🛡️",
-    title: "Verified Crews",
-    description: "Every crew and captain is background-checked and insured before they're on the schedule.",
+    cat: "Float moving",
+    title: "Moving & hauling",
+    body: "Local and long-distance moves, residential or commercial, with a real quote before you book.",
+    photo: "p1",
+    icon: TruckIcon,
+    href: movingHref,
   },
   {
-    icon: "⚡",
-    title: "Fast Quotes",
-    description: "See a real price range in minutes — no waiting on a callback to know what it costs.",
+    cat: "Float towing",
+    title: "Marine towing",
+    body: "24/7 on-water towing, launch to dock, from licensed marine operators.",
+    photo: "p2",
+    icon: TowIcon,
+    href: towingHref,
   },
   {
-    icon: "📍",
-    title: "Live Tracking",
-    description: "Know exactly when your crew, tow, or captain is on the way.",
+    cat: "Float fishing + detailing",
+    title: "Charters & detailing",
+    body: "Book an offshore charter or get your boat and car detailed dockside.",
+    photo: "p3",
+    icon: BoatIcon,
+    href: fishingHref,
+  },
+];
+
+const PERSONAS = [
+  {
+    photo: "p1",
+    icon: TruckIcon,
+    title: "Homeowners & renters",
+    body: "Moving out of a house or into a new office, Float gives you a crew, a truck, and a real price before moving day.",
+    checks: [
+      "Local and long-distance moves",
+      "Packing and loading crews",
+      "Real-time move-day tracking",
+    ],
+    cta: "Book a move",
+    href: movingHref,
   },
   {
-    icon: "💳",
-    title: "Easy Payments",
-    description: "Book as a guest or save your details for next time — your call.",
+    photo: "p2",
+    icon: TowIcon,
+    title: "Boat owners",
+    body: "Engine trouble doesn't wait for business hours — neither does Float Towing.",
+    checks: [
+      "24/7 dispatch, day or night",
+      "Licensed marine operators",
+      "Launch, dock, or open-water pickup",
+    ],
+    cta: "Request a tow",
+    href: towingHref,
   },
+  {
+    photo: "p3",
+    icon: BoatIcon,
+    title: "Anglers & groups",
+    body: "Private or group charters, inshore or offshore, with a captain who knows the water.",
+    checks: [
+      "Inshore and offshore charters",
+      "Private and group bookings",
+      "Every dollar spent earns a trip entry",
+    ],
+    cta: "Book a charter",
+    href: fishingHref,
+  },
+];
+
+const AMENITIES = [
+  { label: "Licensed & insured crew", icon: ShieldIcon },
+  { label: "Instant online quotes", icon: ListIcon },
+  { label: "Live job tracking", icon: ClockIcon },
+  { label: "Secure online payment", icon: CardIcon },
+  { label: "Photo confirmation", icon: CameraIcon },
+  { label: "Rewards on every dollar", icon: StarburstIcon },
+  { label: "Flexible rescheduling", icon: CalendarIcon },
+  { label: "24/7 support line", icon: PhoneIcon },
+  { label: "Verified reviews", icon: DocIcon },
+];
+
+// Only the "Moving" tab has real, client-approved card content — Towing,
+// Fishing, and Detailing tiers below are illustrative placeholders built to
+// match the same pattern and need real pricing/duration from the client.
+const TAB_PANELS = {
+  moving: [
+    { badge: "Studio", title: "Studio move", sub: "1–2 movers, 2–3 hrs", photo: "p1", icon: TruckIcon },
+    { badge: "1–2 bed", title: "Home move", sub: "2–3 movers, half day", photo: "p1", icon: TruckIcon },
+    { badge: "3+ bed", title: "Full house", sub: "3–4 movers, full day", photo: "p1", icon: TruckIcon },
+    { badge: "Office", title: "Commercial", sub: "Custom crew & quote", photo: "p1", icon: TruckIcon },
+  ],
+  towing: [
+    { badge: "Launch", title: "Launch assist", sub: "Get on the water fast", photo: "p2", icon: TowIcon },
+    { badge: "Open water", title: "Open-water tow", sub: "Breakdown & salvage", photo: "p2", icon: TowIcon },
+    { badge: "Dock", title: "Dock-to-dock", sub: "Slip to slip transport", photo: "p2", icon: TowIcon },
+    { badge: "Fleet", title: "Commercial fleet", sub: "Standing service contracts", photo: "p2", icon: TowIcon },
+  ],
+  fishing: [
+    { badge: "Half-day", title: "Inshore trip", sub: "1–4 anglers, 4 hrs", photo: "p3", icon: BoatIcon },
+    { badge: "Full-day", title: "Offshore charter", sub: "1–6 anglers, 8 hrs", photo: "p3", icon: BoatIcon },
+    { badge: "Private", title: "Private charter", sub: "Your group, your boat", photo: "p3", icon: BoatIcon },
+    { badge: "Group", title: "Group booking", sub: "Split-cost group trips", photo: "p3", icon: BoatIcon },
+  ],
+  detailing: [
+    { badge: "Interior", title: "Interior detail", sub: "Cabin or cab, 2–3 hrs", photo: "sparkle", icon: SparkleIcon },
+    { badge: "Full", title: "Full detail", sub: "Interior + exterior", photo: "sparkle", icon: SparkleIcon },
+    { badge: "Marine", title: "Boat detailing", sub: "Gel-coat & compound", photo: "sparkle", icon: SparkleIcon },
+    { badge: "Fleet", title: "Fleet detailing", sub: "Recurring service plans", photo: "sparkle", icon: SparkleIcon },
+  ],
+};
+
+const TABS = [
+  { key: "moving", label: "Moving" },
+  { key: "towing", label: "Towing" },
+  { key: "fishing", label: "Fishing" },
+  { key: "detailing", label: "Detailing" },
 ];
 
 const TESTIMONIALS = [
   {
-    name: "Marcus D.",
-    location: "Jacksonville, FL — Float Moving",
-    rating: 5,
-    quote: "Quoted, booked, and moved in the same week. The crew called ahead and showed up early.",
-  },
-  {
-    name: "Priya S.",
-    location: "St. Augustine, FL — Float Fishing",
-    rating: 5,
-    quote: "Booked a charter in five minutes from my phone. Captain was fantastic with the kids.",
-  },
-  {
-    name: "Ray O.",
-    location: "Mayport, FL — Float Towing",
-    rating: 4.5,
-    quote: "Engine died a mile offshore and they had a boat to us faster than I expected.",
+    quote:
+      "Needed a tow at 9pm on a Saturday. Had someone on the water in under 40 minutes. Can't recommend Float Towing enough.",
+    name: "Maria C.",
+    location: "Ponte Vedra, FL",
   },
 ];
 
-const FOOTER_COLUMNS = [
+const TESTIMONIAL_CARDS = [
   {
-    title: "Services",
-    links: services.map((service) => ({ label: service.name, href: service.href })),
+    quote: "Chartered a half-day offshore trip. Boat was immaculate, captain knew exactly where the fish were.",
+    name: "Derek K.",
+    location: "Atlantic Beach, FL",
+    initials: "DK",
   },
   {
-    title: "Company",
-    links: [
-      { label: "About Float.us", href: "#" },
-      { label: "Contact", href: "#contact" },
-      { label: "Careers", href: "#" },
-    ],
+    quote: "Booked a move and a detailing job in the same week. Same easy process both times, no surprises on price.",
+    name: "Jordan R.",
+    location: "Jacksonville, FL",
+    initials: "JR",
+  },
+  {
+    quote: "The fishing-trip entries are a fun touch — we've booked three services this year just to keep stacking them.",
+    name: "Sarah L.",
+    location: "St Augustine, FL",
+    initials: "SL",
+  },
+  {
+    quote: "Crew showed up on time, called ahead, and left the driveway cleaner than they found it. Will book again.",
+    name: "Tom W.",
+    location: "Mandarin, FL",
+    initials: "TW",
   },
 ];
 
-const SOCIAL_LINKS = [
-  { name: "Facebook", href: "#", icon: <SocialIcon src="/icons/social-facebook.svg" /> },
-  { name: "Instagram", href: "#", icon: <SocialIcon src="/icons/social-instagram.svg" /> },
-  { name: "Email", href: "#", icon: <SocialIcon src="/icons/social-email.svg" /> },
+const FOOTER_SERVICE_LINKS = [
+  { label: "Float Moving", href: movingHref },
+  { label: "Float Towing", href: towingHref },
+  { label: "Float Fishing", href: fishingHref },
+  { label: "Float Detailing", href: detailingHref },
 ];
-
-function SocialIcon({ src }) {
-  // eslint-disable-next-line @next/next/no-img-element -- tiny inline social glyphs
-  return <img src={src} alt="" width={17} height={17} />;
-}
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState("moving");
+
   return (
-    <main className={styles.page}>
-      <div className={styles.background} aria-hidden="true">
-        <Image
-          src="/images/hero-bg.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className={styles.backgroundImage}
-        />
-        <div className={styles.backgroundGradient} />
-      </div>
+    <>
+      <header className={styles.siteHeader}>
+        <div className={styles.wrap}>
+          <nav className={styles.nav}>
+            <Link href="/" className={styles.logo}>
+              <Image
+                src="/images/logo.webp"
+                alt="Float.us"
+                width={1298}
+                height={477}
+                priority
+                className={styles.logoMark}
+              />
+            </Link>
+            <div className={styles.navlinks}>
+              <a href="#offer">Services</a>
+              <a href="#serve">Who we serve</a>
+              <a href="#zones">Service area</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#reviews">Reviews</a>
+            </div>
+            <div className={styles.navbtns}>
+              <a className={`${styles.pill} ${styles.pillOutline}`} href="#contact">
+                Speak to the crew
+              </a>
+              <a className={`${styles.pill} ${styles.pillDark}`} href="#offer">
+                Book a service
+              </a>
+            </div>
+          </nav>
+        </div>
+      </header>
 
-      <SiteHeader
-        as={Link}
-        logo={
-          <Image
-            src="/images/logo.webp"
-            alt="Float.us"
-            width={1298}
-            height={477}
-            priority
-            className={styles.headerLogo}
-          />
-        }
-        navLinks={[
-          { label: "Services", href: "#services" },
-          { label: "Rewards", href: "#rewards" },
-          { label: "Contact", href: "#contact" },
-        ]}
-        cta={{ label: "Get a Quote", href: "#services" }}
-      />
+      <main>
+        <section className={styles.hero}>
+          <div className={styles.wrap}>
+            <div className={styles.heroGrid}>
+              <div className={styles.heroCopy}>
+                <h1>
+                  Moving, towing, and charters — <em>one crew</em>, booked in minutes.
+                </h1>
+                <p>
+                  Float handles residential moves, marine towing, fishing charters, and detailing for Jacksonville
+                  and the First Coast. Get an instant quote and book online.
+                </p>
+                <div className={styles.heroBtns}>
+                  <a className={`${styles.pill} ${styles.pillDark}`} href="#offer">
+                    Book a service
+                  </a>
+                  <a className={`${styles.pill} ${styles.pillOutline}`} href="#contact">
+                    Speak to the crew
+                  </a>
+                </div>
+              </div>
+              <div className={styles.heroPhoto}>
+                <svg className={styles.waves} viewBox="0 0 400 320" fill="none">
+                  <path
+                    d="M0 220c40-14 60 14 100 14s60-28 100-28 60 20 100 8 60-10 100 2"
+                    stroke="#3fc4ea"
+                    strokeWidth="2"
+                    opacity="0.5"
+                  />
+                  <path
+                    d="M0 250c40-14 60 14 100 14s60-28 100-28 60 20 100 8 60-10 100 2"
+                    stroke="#1fb894"
+                    strokeWidth="2"
+                    opacity="0.4"
+                  />
+                  <path
+                    d="M0 280c40-14 60 14 100 14s60-28 100-28 60 20 100 8 60-10 100 2"
+                    stroke="#3fc4ea"
+                    strokeWidth="2"
+                    opacity="0.25"
+                  />
+                </svg>
+                <div className={styles.quoteChip}>
+                  &ldquo;From the first call to the last box, Float made it feel simple.&rdquo;
+                </div>
+              </div>
+            </div>
 
-      <section className={styles.hero}>
-        <div className={styles.heroInner}>
-          <p className={styles.eyebrow}>Float.us</p>
-          <h1 className={styles.heroHeading}>Pick Your Float Service</h1>
-          <p className={styles.heroSub}>
-            Moving, towing, fishing charters, and detailing — book any of it in minutes, and every
-            dollar you spend gets you closer to winning an offshore fishing trip.
-          </p>
-          <div className={styles.heroActions}>
-            <Button as={Link} href="#services" size="lg">
-              Get a Quote
-            </Button>
-            <Button as={Link} href="#rewards" variant="secondary" size="lg">
-              See Rewards
-            </Button>
+            <div className={styles.trustLine}>Float is trusted by {CUSTOMER_COUNT} customers across the First Coast</div>
           </div>
-        </div>
-      </section>
-
-      <Section id="services">
-        <SectionHeading
-          eyebrow="Our Services"
-          title="Four ways we've got you covered"
-          description="Each service has its own booking engine, sized and staffed for the job — pick one to get started."
-        />
-
-        <div className={styles.servicesGrid}>
-          {services.map((service) => {
-            const isLive = service.status === "live";
-            const CardTag = isLive ? Link : "div";
-            const cardProps = isLive ? { href: service.href } : { "aria-disabled": true };
-            return (
-              <CardTag
-                key={service.key}
-                {...cardProps}
-                className={[styles.serviceCard, !isLive ? styles.serviceCardDisabled : ""].join(" ")}
-              >
-                <span className={styles.serviceStatus}>
-                  <Badge variant={isLive ? "success" : "neutral"}>
-                    {isLive ? "Live" : "Coming Soon"}
-                  </Badge>
+          <div className={styles.marquee}>
+            <div className={styles.marqueeTrack}>
+              {[...CITIES, ...CITIES].map((city, i) => (
+                <span className={styles.zoneChip} key={`${city}-${i}`}>
+                  <span className={styles.zoneDot}>
+                    <PinIcon />
+                  </span>
+                  {city}
                 </span>
-                <span className={styles.serviceIcon}>
-                  {/* eslint-disable-next-line @next/next/no-img-element -- small service glyphs */}
-                  <img src={service.icon} alt="" />
-                </span>
-                <p className={styles.serviceTagline}>{service.tagline}</p>
-                <h3 className={styles.serviceName}>{service.name}</h3>
-                <p className={styles.serviceDescription}>{service.description}</p>
-                <span className={styles.serviceCtaRow}>
-                  {isLive ? "Book now" : "Notify me"} <span aria-hidden="true">→</span>
-                </span>
-              </CardTag>
-            );
-          })}
-        </div>
-      </Section>
-
-      <Section id="rewards">
-        <div className={styles.sectionStack}>
-          <SectionHeading
-            eyebrow="Float Rewards"
-            title="Spend $1, earn 1 entry"
-            description="Every purchase across any Float service earns entries toward a seasonal drawing — no separate sign-up required."
-          />
-
-          <IncentiveBanner
-            entries={REWARD_ENTRIES}
-            goal={REWARD_GOAL}
-            drawingLabel="Drawing closes September 30 — entries reset each quarter"
-          />
-
-          <div className={styles.rewardsGrid}>
-            <div className={styles.rewardStep}>
-              <p className={styles.rewardStepNumber}>01</p>
-              <p className={styles.rewardStepTitle}>Book a Float service</p>
-              <p className={styles.rewardStepDescription}>
-                Moving, towing, fishing, or detailing — any completed booking counts.
-              </p>
-            </div>
-            <div className={styles.rewardStep}>
-              <p className={styles.rewardStepNumber}>02</p>
-              <p className={styles.rewardStepTitle}>Earn entries automatically</p>
-              <p className={styles.rewardStepDescription}>
-                $1 spent = 1 entry, credited to your account after the job is complete.
-              </p>
-            </div>
-            <div className={styles.rewardStep}>
-              <p className={styles.rewardStepNumber}>03</p>
-              <p className={styles.rewardStepTitle}>Win the trip</p>
-              <p className={styles.rewardStepDescription}>
-                One winner is drawn each quarter and joins us for an offshore fishing trip.
-              </p>
+              ))}
             </div>
           </div>
+        </section>
+
+        <section id="offer" className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.eyebrow}>What we offer</div>
+            <div className={styles.sectionHead}>
+              <h2>
+                How Float supports <em>your</em> day
+              </h2>
+              <p>Everything you need to move, tow, fish, or freshen up — in one place.</p>
+            </div>
+            <div className={styles.offerGrid}>
+              {OFFER_CARDS.map((card) => (
+                <div className={styles.offerCard} key={card.title}>
+                  <div className={`${styles.offerPhoto} ${styles[card.photo]}`}>
+                    <card.icon />
+                  </div>
+                  <div className={styles.offerBody}>
+                    <div className={styles.offerCat}>{card.cat}</div>
+                    <h3>{card.title}</h3>
+                    <p>{card.body}</p>
+                    <a className={`${styles.pill} ${styles.pillDark}`} href={card.href}>
+                      Learn more
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.sectionTight}>
+          <div className={styles.wrap}>
+            <div className={styles.quoteBand}>
+              <div className={styles.avatarStack}>
+                <div className={styles.av} style={{ background: "#1fb894" }}>
+                  JR
+                </div>
+                <div className={styles.av} style={{ background: "#3fc4ea" }}>
+                  MC
+                </div>
+                <div className={styles.av} style={{ background: "#274158" }}>
+                  DK
+                </div>
+                <div className={styles.av} style={{ background: "#0d8a6b" }}>
+                  +
+                </div>
+              </div>
+              <div className={styles.statCopy}>
+                <strong>{CUSTOMER_COUNT} happy customers</strong>
+                <span>across the First Coast</span>
+              </div>
+              <div className={styles.pull}>
+                &ldquo;Booked a move and a detailing job the same week — same easy process both times.&rdquo;
+                <cite>Jordan R., Jacksonville</cite>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="serve" className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.eyebrow}>Who is this for</div>
+            <div className={styles.sectionHead}>
+              <h2>
+                Who Float <em>serves</em>
+              </h2>
+              <p>From a single move to a standing charter booking, Float has a service for your day on land or water.</p>
+            </div>
+
+            {PERSONAS.map((persona) => (
+              <div className={styles.persona} key={persona.title}>
+                <div className={styles.personaGrid}>
+                  <div className={`${styles.personaPhoto} ${styles.offerPhoto} ${styles[persona.photo]}`}>
+                    <persona.icon />
+                  </div>
+                  <div className={styles.personaBody}>
+                    <h3>{persona.title}</h3>
+                    <p>{persona.body}</p>
+                    <ul className={styles.checklist}>
+                      {persona.checks.map((check) => (
+                        <li key={check}>
+                          <CheckIcon />
+                          {check}
+                        </li>
+                      ))}
+                    </ul>
+                    <a className={`${styles.pill} ${styles.pillDark}`} href={persona.href}>
+                      {persona.cta}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div className={styles.trustedBar}>
+              <PinIcon />
+              Trusted by {CUSTOMER_COUNT} customers across the First Coast
+            </div>
+          </div>
+        </section>
+
+        <section id="zones" className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.eyebrow}>Where we serve</div>
+            <div className={styles.sectionHead}>
+              <h2>Our service area</h2>
+              <p>Float crews run daily across three counties on Florida&apos;s First Coast.</p>
+            </div>
+            <div className={styles.locGrid}>
+              <div className={styles.locPhoto}>
+                <div className={styles.pinBadge}>
+                  <PinIcon />
+                  Jacksonville, FL
+                </div>
+                <div className={styles.cap}>
+                  Serving the <em style={{ color: "#9fe6ff" }}>First Coast</em>
+                </div>
+              </div>
+              <div className={styles.locList}>
+                <div className={styles.locRegion}>Duval County</div>
+                <LocItem label="Downtown Jacksonville" active />
+                <LocItem label="Mandarin" />
+                <LocItem label="Arlington" />
+                <div className={styles.locRegion}>St Johns County</div>
+                <LocItem label="Ponte Vedra Beach" />
+                <LocItem label="St Augustine" />
+                <div className={styles.locRegion}>Nassau County</div>
+                <LocItem label="Fernandina Beach" />
+                <LocItem label="Yulee" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.eyebrow}>What&apos;s included</div>
+            <div className={styles.sectionHead}>
+              <h2>Every booking includes</h2>
+            </div>
+            <div className={styles.amenGrid}>
+              {AMENITIES.map((item) => (
+                <div className={styles.amenRow} key={item.label}>
+                  {item.label}
+                  <span className={styles.amenIcon}>
+                    <item.icon />
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.eyebrow}>Our services</div>
+            <div className={styles.sectionHead}>
+              <h2>A booking for every job</h2>
+              <p>Become part of the {CUSTOMER_COUNT} customers who&apos;ve booked with Float on the First Coast.</p>
+            </div>
+            <div className={styles.tabs}>
+              {TABS.map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  className={`${styles.tab} ${activeTab === tab.key ? styles.tabActive : ""}`}
+                  onClick={() => setActiveTab(tab.key)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            <div className={styles.svcRow}>
+              {TAB_PANELS[activeTab].map((card) => (
+                <div className={styles.svcCard} key={card.title}>
+                  <div className={`${styles.svcPhoto} ${styles[card.photo] ?? ""}`}>
+                    <span className={styles.svcBadge}>{card.badge}</span>
+                    <card.icon small />
+                    <span className={styles.svcArrow}>
+                      <ChevronIcon />
+                    </span>
+                  </div>
+                  <div className={styles.svcCap}>
+                    <strong>{card.title}</strong>
+                    <span>{card.sub}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing" className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.priceBand}>
+              <div className={styles.priceCopy}>
+                <div className={styles.eyebrow}>Simple pricing</div>
+                <h2>Book without the guesswork</h2>
+                <p>See a real price range before you commit — every service, every time.</p>
+                <ul className={styles.priceChecks}>
+                  <li>
+                    <CheckIcon />
+                    <span>
+                      <strong>Transparent pricing</strong>Know your estimate before you book.
+                    </span>
+                  </li>
+                  <li>
+                    <CheckIcon />
+                    <span>
+                      <strong>Book same week</strong>No long lead times for most services.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <div className={styles.priceCard}>
+                <div className={styles.eyebrow}>Starting at</div>
+                <div className={styles.amt}>
+                  $89 <span>/ booking</span>
+                </div>
+                <p>Pricing varies by service, distance, and job size. All bookings include crew insurance and live tracking.</p>
+                <div className={styles.btnrow}>
+                  <a className={`${styles.pill} ${styles.pillAccent}`} href="#offer">
+                    Get a quote
+                  </a>
+                  <a className={`${styles.pill} ${styles.pillOutline}`} href="#offer">
+                    See all pricing
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="reviews" className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.eyebrow}>Testimonials</div>
+            <div className={styles.sectionHead}>
+              <h2>
+                Your <em>future</em> Float story
+              </h2>
+              <p>From weekend charters to whole-house moves, here&apos;s why customers choose Float.</p>
+            </div>
+            <div className={styles.testGrid}>
+              <div className={styles.testBig}>
+                <p>&ldquo;{TESTIMONIALS[0].quote}&rdquo;</p>
+                <cite>
+                  {TESTIMONIALS[0].name} — {TESTIMONIALS[0].location}
+                </cite>
+              </div>
+              {TESTIMONIAL_CARDS.map((t) => (
+                <div className={styles.testCard} key={t.name}>
+                  <div className={styles.stars}>★★★★★</div>
+                  <p>{t.quote}</p>
+                  <div className={styles.testWho}>
+                    <div className={styles.av}>{t.initials}</div>
+                    <div>
+                      <strong>{t.name}</strong>
+                      <span>{t.location}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.finalCta}>
+              <h2>
+                Find your next Float booking <em style={{ color: "#7de8c9" }}>today</em>
+              </h2>
+              <p>Join {CUSTOMER_COUNT} customers moving, towing, fishing, and detailing across the First Coast.</p>
+              <div className={styles.row}>
+                <a className={`${styles.pill} ${styles.pillAccent}`} href="#offer">
+                  Book a service
+                </a>
+                <a className={`${styles.pill} ${styles.pillOutlineLight}`} href="#contact">
+                  Speak to the crew
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer id="contact" className={styles.siteFooter}>
+        <div className={styles.wrap}>
+          <div className={styles.footGrid}>
+            <div className={styles.footCol}>
+              <h5>Float services</h5>
+              {FOOTER_SERVICE_LINKS.map((link) => (
+                <a href={link.href} key={link.label}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+            <div className={styles.footCol}>
+              <h5>Built for</h5>
+              <a href="#serve">Homeowners &amp; renters</a>
+              <a href="#serve">Boat owners</a>
+              <a href="#serve">Anglers &amp; groups</a>
+            </div>
+            <div className={styles.footCol}>
+              <h5>Resources</h5>
+              <a href="#pricing">Pricing</a>
+              <a href="#reviews">Reviews</a>
+              <a href="#offer">Rewards program</a>
+            </div>
+            <div className={styles.footCol}>
+              <h5>Information</h5>
+              <a href="#">Company</a>
+              <a href="#">FAQs</a>
+              <a href="#">Careers</a>
+            </div>
+            <div className={styles.footBrandBox}>
+              <div className={styles.logo}>
+                <Image
+                  src="/images/logo.webp"
+                  alt="Float.us"
+                  width={1298}
+                  height={477}
+                  className={styles.logoMark}
+                />
+              </div>
+              <p>904-625-0199</p>
+              <p>info@float.us</p>
+              <p>Jacksonville, FL</p>
+              <div className={styles.footSocial}>
+                <a href="#" aria-label="Facebook">
+                  <FacebookIcon />
+                </a>
+                <a href="#" aria-label="Instagram">
+                  <InstagramIcon />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className={styles.footBottom}>
+            <span>&copy; {new Date().getFullYear()} Float.us. All rights reserved.</span>
+            <span>Privacy policy &middot; Terms &amp; conditions</span>
+          </div>
         </div>
-      </Section>
+      </footer>
+    </>
+  );
+}
 
-      <Section>
-        <StatBand stats={STATS} />
-      </Section>
+function LocItem({ label, active }) {
+  return (
+    <div className={`${styles.locItem} ${active ? styles.active : ""}`}>
+      {label}
+      <ChevronIcon stroke={active ? "#04241b" : "#8698a8"} />
+    </div>
+  );
+}
 
-      <Section>
-        <div className={styles.sectionStack}>
-          <SectionHeading
-            eyebrow="Why Float"
-            title="Built so booking a job feels easy"
-            description="The same crew standards and transparent pricing across every service."
-          />
-          <TrustGrid items={TRUST_ITEMS} />
-        </div>
-      </Section>
+function PinIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="2">
+      <path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z" />
+    </svg>
+  );
+}
 
-      <Section>
-        <div className={styles.sectionStack}>
-          <SectionHeading eyebrow="Testimonials" title="What customers are saying" />
-          <TestimonialCarousel testimonials={TESTIMONIALS} />
-        </div>
-      </Section>
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.2">
+      <path d="M5 13l4 4L19 7" />
+    </svg>
+  );
+}
 
-      <div id="contact">
-        <SiteFooter
-          as={Link}
-          logo={
-            <Image
-              src="/images/logo.webp"
-              alt="Float.us"
-              width={1298}
-              height={477}
-              className={styles.headerLogo}
-            />
-          }
-          tagline="We move. We tow. We clean. We fish. You enjoy."
-          columns={FOOTER_COLUMNS}
-          socialLinks={SOCIAL_LINKS}
-          copyrightName="Float.us"
-        />
-      </div>
-    </main>
+function ChevronIcon({ stroke = "currentColor" }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="2">
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+function TruckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4">
+      <rect x="3" y="8" width="13" height="10" rx="1" />
+      <path d="M16 11h3l2 3v4h-5" />
+      <circle cx="7.5" cy="19" r="1.5" />
+      <circle cx="17.5" cy="19" r="1.5" />
+    </svg>
+  );
+}
+
+function TowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4">
+      <path d="M3 15c2-4 6-7 9-7s5 2 5 4-2 3-4 3-3-1-3-2" />
+      <circle cx="18" cy="9" r="2" />
+    </svg>
+  );
+}
+
+function BoatIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4">
+      <path d="M4 18c4 2 12 2 16 0" />
+      <path d="M12 18V6l4 3" />
+    </svg>
+  );
+}
+
+function SparkleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4">
+      <path d="M9 4l1.4 4.6L15 10l-4.6 1.4L9 16l-1.4-4.6L3 10l4.6-1.4L9 4z" />
+      <path d="M17.5 13.5l.8 2.4 2.4.8-2.4.8-.8 2.4-.8-2.4-2.4-.8 2.4-.8.8-2.4z" />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z" />
+    </svg>
+  );
+}
+
+function ListIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <path d="M4 7h16M4 12h16M4 17h10" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  );
+}
+
+function CardIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <rect x="3" y="6" width="18" height="12" rx="2" />
+      <path d="M3 10h18" />
+    </svg>
+  );
+}
+
+function CameraIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <rect x="3" y="6" width="18" height="13" rx="2" />
+      <circle cx="12" cy="12.5" r="3.2" />
+    </svg>
+  );
+}
+
+function StarburstIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <path d="M12 17.3l-5.4 3 1.4-6.1L3 9.8l6.2-.5L12 3.5l2.8 5.8 6.2.5-4.9 4.4 1.4 6.1z" />
+    </svg>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 10h18M8 3v4M16 3v4" />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <path d="M4 5h4l2 5-2.5 1.5a11 11 0 005 5L14 14l5 2v4a2 2 0 01-2 2C9 22 2 15 2 7a2 2 0 012-2z" />
+    </svg>
+  );
+}
+
+function DocIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <path d="M8 10h8M8 14h5" />
+      <rect x="3" y="4" width="18" height="14" rx="2" />
+    </svg>
+  );
+}
+
+function FacebookIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <path d="M14 9h3V6h-3c-2 0-3 1-3 3v2H9v3h2v6h3v-6h3l1-3h-4V9z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.6">
+      <rect x="4" y="4" width="16" height="16" rx="4" />
+      <circle cx="12" cy="12" r="3.2" />
+    </svg>
   );
 }

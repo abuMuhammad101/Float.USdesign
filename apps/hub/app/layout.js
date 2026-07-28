@@ -1,36 +1,36 @@
-import { Montserrat, Inter } from "next/font/google";
-import "@float/ui/tokens/tokens.css";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  variable: "--font-heading",
+const fraunces = Fraunces({
+  variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["400", "700", "800"],
+  weight: ["400", "500"],
+  style: ["italic"],
   display: "swap",
 });
 
 const inter = Inter({
-  variable: "--font-body",
+  variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "900"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 export const metadata = {
-  title: "Float.us — Moving, Towing, Fishing & Detailing",
+  title: "Float.us — We move. We tow. You enjoy.",
   description:
-    "We move. We tow. We clean. We fish. You enjoy. Float.us is the hub for Float Moving, Float Towing, Float Fishing, and Float Detailing — book any Float service and earn entries to win an offshore fishing trip.",
+    "Float handles residential moves, marine towing, fishing charters, and detailing for Jacksonville and the First Coast. Get an instant quote and book online.",
 };
 
 export const viewport = {
-  themeColor: "#030a17",
+  themeColor: "#F3F6F8",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${inter.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );
