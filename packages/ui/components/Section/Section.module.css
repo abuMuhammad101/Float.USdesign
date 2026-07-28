@@ -1,0 +1,4 @@
+.section {
+  width: 100%;
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+}

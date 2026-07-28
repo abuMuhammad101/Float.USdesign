@@ -1,0 +1,85 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem;
+  border-radius: var(--float-radius-lg);
+  border: 1px solid var(--float-border);
+  background: var(--float-bg-card);
+  width: 100%;
+}
+
+.quote {
+  font-family: var(--float-font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--float-text);
+  text-wrap: pretty;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--float-accent-strong), var(--float-heading));
+  color: #01111f;
+  font-weight: 800;
+  font-family: var(--float-font-heading);
+}
+
+.name {
+  display: block;
+  font-family: var(--float-font-body);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--float-text);
+}
+
+.location {
+  display: block;
+  font-family: var(--float-font-body);
+  font-size: 0.8125rem;
+  color: var(--float-text-muted);
+}
+
+.dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(238, 246, 255, 0.2);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--float-duration-fast) var(--float-ease), transform var(--float-duration-fast) var(--float-ease);
+}
+
+.dotActive {
+  background: var(--float-accent);
+  transform: scale(1.3);
+}

@@ -1,0 +1,124 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--float-radius-lg);
+  overflow: hidden;
+  background: var(--float-bg-card);
+  border: 1px solid var(--float-border);
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--float-duration-base) var(--float-ease),
+    border-color var(--float-duration-base) var(--float-ease),
+    box-shadow var(--float-duration-base) var(--float-ease);
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--float-border-strong);
+  box-shadow: var(--float-shadow-card);
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--float-bg-raised);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.iconPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 30% 20%, rgba(127, 216, 255, 0.22), transparent 60%),
+    linear-gradient(135deg, var(--float-bg-raised), rgba(26, 171, 246, 0.12));
+}
+
+.iconPlaceholderImg {
+  width: 40%;
+  height: 40%;
+  filter: drop-shadow(0 2px 14px rgba(42, 102, 255, 0.75));
+}
+
+.tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.1rem 1.25rem 1.35rem;
+}
+
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.title {
+  font-family: var(--float-font-heading);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--float-text);
+  line-height: 1.3;
+}
+
+.price {
+  flex-shrink: 0;
+  font-family: var(--float-font-heading);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--float-accent);
+  white-space: nowrap;
+}
+
+.priceUnit {
+  font-family: var(--float-font-body);
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: var(--float-text-muted);
+}
+
+.subtitle {
+  font-family: var(--float-font-body);
+  font-size: 0.875rem;
+  color: var(--float-text-body);
+}
+
+.specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.15rem 0 0;
+}
+
+.spec {
+  font-family: var(--float-font-body);
+  font-size: 0.8125rem;
+  color: var(--float-text-muted);
+  padding-right: 0.6rem;
+  border-right: 1px solid var(--float-border);
+}
+
+.spec:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.ratingRow {
+  margin-top: 0.2rem;
+}

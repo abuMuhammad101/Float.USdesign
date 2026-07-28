@@ -1,0 +1,71 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 1.25rem;
+  border-radius: var(--float-radius-lg);
+  border: 1px solid var(--float-border);
+  background: var(--float-bg-card);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: var(--float-font-body);
+  font-size: 0.875rem;
+}
+
+.rowLabel {
+  color: var(--float-text-body);
+}
+
+.rowValue {
+  color: var(--float-text);
+  font-weight: 600;
+}
+
+.totalRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--float-border);
+}
+
+.totalLabel {
+  font-family: var(--float-font-body);
+  font-weight: 700;
+  color: var(--float-text);
+}
+
+.totalValue {
+  font-family: var(--float-font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--float-accent);
+}
+
+.rangeNote {
+  font-family: var(--float-font-body);
+  font-size: 0.75rem;
+  color: var(--float-text-muted);
+}
+
+.note {
+  font-family: var(--float-font-body);
+  font-size: 0.75rem;
+  color: var(--float-text-muted);
+  padding-top: 0.4rem;
+  border-top: 1px dashed var(--float-border);
+}

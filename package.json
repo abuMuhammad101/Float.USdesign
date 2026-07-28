@@ -1,20 +1,16 @@
 {
-  "name": "float-us-design",
+  "name": "float-us-platform",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "next": "16.2.11",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
-  },
-  "devDependencies": {
-    "eslint": "^9",
-    "eslint-config-next": "16.2.11"
+    "dev:hub": "npm run dev --workspace=@float/hub",
+    "dev:moving": "npm run dev --workspace=@float/moving",
+    "build:hub": "npm run build --workspace=@float/hub",
+    "build:moving": "npm run build --workspace=@float/moving",
+    "lint": "npm run lint --workspaces --if-present"
   }
 }

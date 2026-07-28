@@ -1,0 +1,72 @@
+/**
+ * Float shared design tokens — the brand DNA established on the Float.us
+ * "Coming Soon" page (midnight-ocean background, glowing cyan/blue neon
+ * accents). Every Float property (hub + all service sub-sites) imports
+ * this file so they read as one brand family.
+ */
+:root {
+  /* ---------- Color: surfaces ---------- */
+  --float-bg: #030a17;
+  --float-bg-raised: #0a1526;
+  --float-bg-card: rgba(255, 255, 255, 0.04);
+  --float-border: rgba(127, 216, 255, 0.18);
+  --float-border-strong: rgba(127, 216, 255, 0.4);
+
+  /* ---------- Color: brand / accent ---------- */
+  --float-heading: #1aabf6;
+  --float-accent: #7fd8ff;
+  --float-accent-strong: #3fc1ff;
+  --float-glow: #2a66ff;
+
+  /* ---------- Color: text ---------- */
+  --float-text: #eef6ff;
+  --float-text-body: #b9c8da;
+  --float-text-muted: #7f93a8;
+
+  /* ---------- Color: status ---------- */
+  --float-success: #4ade80;
+  --float-warning: #fbbf24;
+  --float-danger: #f87171;
+
+  /* ---------- Typography ---------- */
+  --float-font-heading: var(--font-heading), "Montserrat", sans-serif;
+  --float-font-body: var(--font-body), "Inter", "Segoe UI", system-ui, sans-serif;
+
+  /* ---------- Spacing scale ---------- */
+  --float-space-1: 0.25rem;
+  --float-space-2: 0.5rem;
+  --float-space-3: 0.75rem;
+  --float-space-4: 1rem;
+  --float-space-6: 1.5rem;
+  --float-space-8: 2rem;
+  --float-space-12: 3rem;
+  --float-space-16: 4rem;
+
+  /* ---------- Radii ---------- */
+  --float-radius-sm: 0.5rem;
+  --float-radius-md: 0.875rem;
+  --float-radius-lg: 1.25rem;
+  --float-radius-full: 999px;
+
+  /* ---------- Glow / shadow ---------- */
+  --float-glow-text:
+    0 0 90px rgba(40, 140, 230, 0.35),
+    0 0 50px rgba(60, 170, 255, 0.5),
+    0 0 24px rgba(90, 195, 255, 0.7),
+    0 0 10px rgba(120, 215, 255, 0.9);
+  --float-glow-soft: 0 0 18px rgba(70, 180, 255, 0.35);
+  --float-glow-icon: 0 1.35px 11.6px rgba(42, 102, 255, 0.9);
+  --float-shadow-card: 0 20px 60px -20px rgba(0, 8, 30, 0.6);
+  --float-ring-focus: 0 0 0 3px rgba(127, 216, 255, 0.45);
+
+  /* ---------- Motion ---------- */
+  --float-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --float-duration-fast: 0.18s;
+  --float-duration-base: 0.28s;
+
+  /* ---------- Z-index scale ---------- */
+  --float-z-header: 40;
+  --float-z-sticky: 30;
+  --float-z-overlay: 50;
+  --float-z-modal: 60;
+}

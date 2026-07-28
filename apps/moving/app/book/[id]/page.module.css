@@ -1,0 +1,330 @@
+.page {
+  min-height: 100dvh;
+  width: 100%;
+  background: var(--float-bg);
+  padding-bottom: 3rem;
+}
+
+.container {
+  max-width: 64rem;
+  margin-inline: auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 4vw, 2rem);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--float-font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--float-text-muted);
+  margin-bottom: 1.5rem;
+  transition: color var(--float-duration-fast) var(--float-ease);
+}
+
+.backLink:hover {
+  color: var(--float-accent);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.logo {
+  width: 6rem;
+  height: auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18rem;
+  gap: 2rem;
+  align-items: start;
+}
+
+.stepPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 1.75rem;
+  border-radius: var(--float-radius-lg);
+  border: 1px solid var(--float-border);
+  background: var(--float-bg-card);
+  min-width: 0;
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stepTitle {
+  font-family: var(--float-font-heading);
+  font-weight: 700;
+  font-size: 1.375rem;
+  color: var(--float-text);
+}
+
+.stepSubtitle {
+  font-family: var(--float-font-body);
+  font-size: 0.9375rem;
+  color: var(--float-text-body);
+  margin-top: -1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.fieldLabel {
+  font-family: var(--float-font-body);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--float-text-muted);
+}
+
+.textInput {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--float-radius-md);
+  border: 1px solid var(--float-border);
+  background: var(--float-bg-raised);
+  color: var(--float-text);
+  font-family: var(--float-font-body);
+  font-size: 0.9375rem;
+}
+
+.textInput:focus {
+  outline: none;
+  border-color: var(--float-accent);
+  box-shadow: var(--float-ring-focus);
+}
+
+.textInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slotGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.6rem;
+}
+
+.slotOption {
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--float-radius-md);
+  border: 1px solid var(--float-border);
+  background: var(--float-bg-raised);
+  color: var(--float-text-body);
+  font-family: var(--float-font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--float-duration-fast) var(--float-ease), color var(--float-duration-fast) var(--float-ease);
+}
+
+.slotOption:hover {
+  border-color: var(--float-border-strong);
+}
+
+.slotOptionActive {
+  border-color: var(--float-accent);
+  color: var(--float-text);
+  background: rgba(127, 216, 255, 0.12);
+}
+
+.rangeInput {
+  width: 100%;
+  accent-color: var(--float-accent-strong);
+}
+
+.rangeLabels {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--float-font-body);
+  font-size: 0.75rem;
+  color: var(--float-text-muted);
+}
+
+.pillGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.pillOption {
+  padding: 0.55rem 1rem;
+  border-radius: var(--float-radius-full);
+  border: 1px solid var(--float-border);
+  background: var(--float-bg-raised);
+  color: var(--float-text-body);
+  font-family: var(--float-font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--float-duration-fast) var(--float-ease), color var(--float-duration-fast) var(--float-ease);
+}
+
+.pillOption:hover {
+  border-color: var(--float-border-strong);
+}
+
+.pillOptionActive {
+  border-color: var(--float-accent);
+  color: var(--float-text);
+  background: rgba(127, 216, 255, 0.12);
+}
+
+.cardFields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.stubNote {
+  font-family: var(--float-font-body);
+  font-size: 0.75rem;
+  color: var(--float-text-muted);
+}
+
+.navRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--float-border);
+}
+
+.summaryPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 2rem;
+}
+
+.summaryTitle {
+  font-family: var(--float-font-heading);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--float-text);
+}
+
+.summaryDivider {
+  height: 1px;
+  background: var(--float-border);
+}
+
+/* ---------- Done screen ---------- */
+
+.doneWrap {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.doneCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  max-width: 28rem;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  border-radius: var(--float-radius-lg);
+  border: 1px solid var(--float-border-strong);
+  background: var(--float-bg-card);
+  box-shadow: var(--float-shadow-card);
+}
+
+.doneCheck {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: rgba(74, 222, 128, 0.14);
+  border: 1px solid rgba(74, 222, 128, 0.4);
+  color: var(--float-success);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.doneTitle {
+  font-family: var(--float-font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--float-text);
+}
+
+.doneConfirmation {
+  font-family: var(--float-font-body);
+  font-size: 0.9375rem;
+  color: var(--float-text-body);
+}
+
+.doneSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--float-radius-md);
+  border: 1px solid var(--float-border);
+  background: var(--float-bg-raised);
+}
+
+.doneRow {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--float-font-body);
+  font-size: 0.875rem;
+  color: var(--float-text);
+}
+
+.doneRow span:first-child {
+  color: var(--float-text-muted);
+}
+
+.doneNote {
+  font-family: var(--float-font-body);
+  font-size: 0.8125rem;
+  color: var(--float-text-muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryPanel {
+    position: static;
+    order: -1;
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
+}

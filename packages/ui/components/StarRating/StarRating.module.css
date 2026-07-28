@@ -1,0 +1,49 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--float-font-body);
+  color: var(--float-text-body);
+}
+
+.stars {
+  display: inline-flex;
+  gap: 0.1rem;
+}
+
+.starSlot {
+  position: relative;
+  display: inline-block;
+  color: rgba(238, 246, 255, 0.2);
+}
+
+.starFill {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: var(--float-accent-strong);
+  white-space: nowrap;
+}
+
+.count {
+  font-size: 0.8125rem;
+  color: var(--float-text-muted);
+}
+
+.sm .starSlot,
+.sm .starBase,
+.sm .starFill {
+  font-size: 0.75rem;
+}
+
+.md .starSlot,
+.md .starBase,
+.md .starFill {
+  font-size: 0.95rem;
+}
+
+.lg .starSlot,
+.lg .starBase,
+.lg .starFill {
+  font-size: 1.15rem;
+}

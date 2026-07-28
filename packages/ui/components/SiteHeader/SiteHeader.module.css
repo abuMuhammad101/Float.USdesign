@@ -1,0 +1,126 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--float-z-header);
+  width: 100%;
+  background: rgba(3, 10, 23, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--float-border);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: 78rem;
+  margin-inline: auto;
+  padding: 0.85rem clamp(1rem, 4vw, 2rem);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brandName {
+  font-family: var(--float-font-heading);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--float-text);
+  letter-spacing: 0.02em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.navLink {
+  font-family: var(--float-font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--float-text-body);
+  text-decoration: none;
+  transition: color var(--float-duration-fast) var(--float-ease);
+}
+
+.navLink:hover {
+  color: var(--float-accent);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.mobileCta {
+  display: none;
+}
+
+.menuToggle {
+  display: none;
+  flex-direction: column;
+  gap: 0.28rem;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.menuBar {
+  width: 1.35rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--float-text);
+  transition: transform var(--float-duration-base) var(--float-ease),
+    opacity var(--float-duration-base) var(--float-ease);
+}
+
+@media (max-width: 860px) {
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--float-bg-raised);
+    border-bottom: 1px solid var(--float-border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--float-duration-base) var(--float-ease);
+  }
+
+  .navOpen {
+    max-height: 24rem;
+  }
+
+  .navLink {
+    padding: 0.9rem clamp(1rem, 4vw, 2rem);
+    border-bottom: 1px solid var(--float-border);
+  }
+
+  .mobileCta {
+    display: flex;
+    margin: 1rem clamp(1rem, 4vw, 2rem);
+  }
+
+  .desktopCta {
+    display: none;
+  }
+
+  .menuToggle {
+    display: flex;
+  }
+}

@@ -1,4 +1,5 @@
 import { Montserrat, Inter } from "next/font/google";
+import "@float/ui/tokens/tokens.css";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -16,13 +17,13 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Float.us — Coming Soon",
+  title: "Float.us — Moving, Towing, Fishing & Detailing",
   description:
-    "We move. We tow. You enjoy. Float.us is preparing an experience that moves you — residential moving, commercial moving, marine towing, fishing charters, and hauling services.",
+    "We move. We tow. We clean. We fish. You enjoy. Float.us is the hub for Float Moving, Float Towing, Float Fishing, and Float Detailing — book any Float service and earn entries to win an offshore fishing trip.",
 };
 
 export const viewport = {
-  themeColor: "#030e21",
+  themeColor: "#030a17",
   width: "device-width",
   initialScale: 1,
 };

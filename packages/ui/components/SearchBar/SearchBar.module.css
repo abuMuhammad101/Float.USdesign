@@ -1,0 +1,77 @@
+.bar {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+  width: 100%;
+  background: var(--float-bg-raised);
+  border: 1px solid var(--float-border);
+  border-radius: var(--float-radius-full);
+  padding: 0.4rem 0.4rem 0.4rem 0.5rem;
+  box-shadow: var(--float-shadow-card);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.1rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0.35rem 1rem;
+}
+
+.withDivider {
+  border-right: 1px solid var(--float-border);
+}
+
+.label {
+  font-family: var(--float-font-body);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--float-text-muted);
+}
+
+.control {
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: var(--float-text);
+  font-family: var(--float-font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0;
+  min-width: 0;
+}
+
+.control:focus {
+  outline: none;
+}
+
+.control option {
+  color: #01111f;
+}
+
+.submit {
+  flex-shrink: 0;
+}
+
+@media (max-width: 860px) {
+  .bar {
+    flex-wrap: wrap;
+    border-radius: var(--float-radius-lg);
+  }
+
+  .field {
+    flex: 1 1 40%;
+    border-right: none !important;
+    border-bottom: 1px solid var(--float-border);
+    padding: 0.6rem 0.75rem;
+  }
+
+  .submit {
+    width: 100%;
+    margin-top: 0.4rem;
+  }
+}
