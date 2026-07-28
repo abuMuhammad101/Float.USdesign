@@ -31,32 +31,32 @@ const OFFER_CARDS = [
     cat: "Float moving",
     title: "Moving & hauling",
     body: "Local and long-distance moves, residential or commercial, with a real quote before you book.",
-    photo: "p1",
-    icon: TruckIcon,
+    image: "/images/service-moving.jpg",
+    alt: "Movers loading boxes into a moving van",
     href: movingHref,
   },
   {
     cat: "Float towing",
     title: "Marine towing",
     body: "24/7 on-water towing, launch to dock, from licensed marine operators.",
-    photo: "p2",
-    icon: TowIcon,
+    image: "/images/service-towing.jpg",
+    alt: "A boat towing another vessel on open water",
     href: towingHref,
   },
   {
     cat: "Float fishing + detailing",
     title: "Charters & detailing",
     body: "Book an offshore charter or get your boat and car detailed dockside.",
-    photo: "p3",
-    icon: BoatIcon,
+    image: "/images/service-fishing.jpg",
+    alt: "Anglers fishing from a boat on the water",
     href: fishingHref,
   },
 ];
 
 const PERSONAS = [
   {
-    photo: "p1",
-    icon: TruckIcon,
+    image: "/images/service-moving.jpg",
+    alt: "Movers loading boxes into a moving van",
     title: "Homeowners & renters",
     body: "Moving out of a house or into a new office, Float gives you a crew, a truck, and a real price before moving day.",
     checks: [
@@ -68,8 +68,8 @@ const PERSONAS = [
     href: movingHref,
   },
   {
-    photo: "p2",
-    icon: TowIcon,
+    image: "/images/service-towing.jpg",
+    alt: "A boat towing another vessel on open water",
     title: "Boat owners",
     body: "Engine trouble doesn't wait for business hours — neither does Float Towing.",
     checks: [
@@ -81,8 +81,8 @@ const PERSONAS = [
     href: towingHref,
   },
   {
-    photo: "p3",
-    icon: BoatIcon,
+    image: "/images/service-fishing.jpg",
+    alt: "Anglers fishing from a boat on the water",
     title: "Anglers & groups",
     body: "Private or group charters, inshore or offshore, with a captain who knows the water.",
     checks: [
@@ -110,30 +110,35 @@ const AMENITIES = [
 // Only the "Moving" tab has real, client-approved card content — Towing,
 // Fishing, and Detailing tiers below are illustrative placeholders built to
 // match the same pattern and need real pricing/duration from the client.
+const MOVING_IMG = { image: "/images/service-moving.jpg", alt: "Movers loading boxes into a moving van" };
+const TOWING_IMG = { image: "/images/service-towing.jpg", alt: "A boat towing another vessel on open water" };
+const FISHING_IMG = { image: "/images/service-fishing.jpg", alt: "Anglers fishing from a boat on the water" };
+const DETAILING_IMG = { image: "/images/service-detailing.jpg", alt: "Crew washing and detailing a boat deck" };
+
 const TAB_PANELS = {
   moving: [
-    { badge: "Studio", title: "Studio move", sub: "1–2 movers, 2–3 hrs", photo: "p1", icon: TruckIcon },
-    { badge: "1–2 bed", title: "Home move", sub: "2–3 movers, half day", photo: "p1", icon: TruckIcon },
-    { badge: "3+ bed", title: "Full house", sub: "3–4 movers, full day", photo: "p1", icon: TruckIcon },
-    { badge: "Office", title: "Commercial", sub: "Custom crew & quote", photo: "p1", icon: TruckIcon },
+    { badge: "Studio", title: "Studio move", sub: "1–2 movers, 2–3 hrs", ...MOVING_IMG },
+    { badge: "1–2 bed", title: "Home move", sub: "2–3 movers, half day", ...MOVING_IMG },
+    { badge: "3+ bed", title: "Full house", sub: "3–4 movers, full day", ...MOVING_IMG },
+    { badge: "Office", title: "Commercial", sub: "Custom crew & quote", ...MOVING_IMG },
   ],
   towing: [
-    { badge: "Launch", title: "Launch assist", sub: "Get on the water fast", photo: "p2", icon: TowIcon },
-    { badge: "Open water", title: "Open-water tow", sub: "Breakdown & salvage", photo: "p2", icon: TowIcon },
-    { badge: "Dock", title: "Dock-to-dock", sub: "Slip to slip transport", photo: "p2", icon: TowIcon },
-    { badge: "Fleet", title: "Commercial fleet", sub: "Standing service contracts", photo: "p2", icon: TowIcon },
+    { badge: "Launch", title: "Launch assist", sub: "Get on the water fast", ...TOWING_IMG },
+    { badge: "Open water", title: "Open-water tow", sub: "Breakdown & salvage", ...TOWING_IMG },
+    { badge: "Dock", title: "Dock-to-dock", sub: "Slip to slip transport", ...TOWING_IMG },
+    { badge: "Fleet", title: "Commercial fleet", sub: "Standing service contracts", ...TOWING_IMG },
   ],
   fishing: [
-    { badge: "Half-day", title: "Inshore trip", sub: "1–4 anglers, 4 hrs", photo: "p3", icon: BoatIcon },
-    { badge: "Full-day", title: "Offshore charter", sub: "1–6 anglers, 8 hrs", photo: "p3", icon: BoatIcon },
-    { badge: "Private", title: "Private charter", sub: "Your group, your boat", photo: "p3", icon: BoatIcon },
-    { badge: "Group", title: "Group booking", sub: "Split-cost group trips", photo: "p3", icon: BoatIcon },
+    { badge: "Half-day", title: "Inshore trip", sub: "1–4 anglers, 4 hrs", ...FISHING_IMG },
+    { badge: "Full-day", title: "Offshore charter", sub: "1–6 anglers, 8 hrs", ...FISHING_IMG },
+    { badge: "Private", title: "Private charter", sub: "Your group, your boat", ...FISHING_IMG },
+    { badge: "Group", title: "Group booking", sub: "Split-cost group trips", ...FISHING_IMG },
   ],
   detailing: [
-    { badge: "Interior", title: "Interior detail", sub: "Cabin or cab, 2–3 hrs", photo: "sparkle", icon: SparkleIcon },
-    { badge: "Full", title: "Full detail", sub: "Interior + exterior", photo: "sparkle", icon: SparkleIcon },
-    { badge: "Marine", title: "Boat detailing", sub: "Gel-coat & compound", photo: "sparkle", icon: SparkleIcon },
-    { badge: "Fleet", title: "Fleet detailing", sub: "Recurring service plans", photo: "sparkle", icon: SparkleIcon },
+    { badge: "Interior", title: "Interior detail", sub: "Cabin or cab, 2–3 hrs", ...DETAILING_IMG },
+    { badge: "Full", title: "Full detail", sub: "Interior + exterior", ...DETAILING_IMG },
+    { badge: "Marine", title: "Boat detailing", sub: "Gel-coat & compound", ...DETAILING_IMG },
+    { badge: "Fleet", title: "Fleet detailing", sub: "Recurring service plans", ...DETAILING_IMG },
   ],
 };
 
@@ -246,26 +251,15 @@ export default function Home() {
                 </div>
               </div>
               <div className={styles.heroPhoto}>
-                <svg className={styles.waves} viewBox="0 0 400 320" fill="none">
-                  <path
-                    d="M0 220c40-14 60 14 100 14s60-28 100-28 60 20 100 8 60-10 100 2"
-                    stroke="#3fc4ea"
-                    strokeWidth="2"
-                    opacity="0.5"
-                  />
-                  <path
-                    d="M0 250c40-14 60 14 100 14s60-28 100-28 60 20 100 8 60-10 100 2"
-                    stroke="#1fb894"
-                    strokeWidth="2"
-                    opacity="0.4"
-                  />
-                  <path
-                    d="M0 280c40-14 60 14 100 14s60-28 100-28 60 20 100 8 60-10 100 2"
-                    stroke="#3fc4ea"
-                    strokeWidth="2"
-                    opacity="0.25"
-                  />
-                </svg>
+                <Image
+                  src="/images/hero-boat-sunset.jpg"
+                  alt="Sailboat on the water at sunset near Florida's coast"
+                  fill
+                  priority
+                  sizes="(max-width: 900px) 100vw, 50vw"
+                  style={{ objectFit: "cover" }}
+                />
+                <div className={styles.photoOverlayStrong} />
                 <div className={styles.quoteChip}>
                   &ldquo;From the first call to the last box, Float made it feel simple.&rdquo;
                 </div>
@@ -300,8 +294,9 @@ export default function Home() {
             <div className={styles.offerGrid}>
               {OFFER_CARDS.map((card) => (
                 <div className={styles.offerCard} key={card.title}>
-                  <div className={`${styles.offerPhoto} ${styles[card.photo]}`}>
-                    <card.icon />
+                  <div className={styles.offerPhoto}>
+                    <Image src={card.image} alt={card.alt} fill sizes="(max-width: 900px) 50vw, 33vw" style={{ objectFit: "cover" }} />
+                    <div className={styles.photoOverlay} />
                   </div>
                   <div className={styles.offerBody}>
                     <div className={styles.offerCat}>{card.cat}</div>
@@ -359,8 +354,9 @@ export default function Home() {
             {PERSONAS.map((persona) => (
               <div className={styles.persona} key={persona.title}>
                 <div className={styles.personaGrid}>
-                  <div className={`${styles.personaPhoto} ${styles.offerPhoto} ${styles[persona.photo]}`}>
-                    <persona.icon />
+                  <div className={`${styles.personaPhoto} ${styles.offerPhoto}`}>
+                    <Image src={persona.image} alt={persona.alt} fill sizes="(max-width: 900px) 100vw, 340px" style={{ objectFit: "cover" }} />
+                    <div className={styles.photoOverlay} />
                   </div>
                   <div className={styles.personaBody}>
                     <h3>{persona.title}</h3>
@@ -397,6 +393,14 @@ export default function Home() {
             </div>
             <div className={styles.locGrid}>
               <div className={styles.locPhoto}>
+                <Image
+                  src="/images/location-jacksonville.jpg"
+                  alt="Downtown Jacksonville skyline along the St. Johns River"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 60vw"
+                  style={{ objectFit: "cover" }}
+                />
+                <div className={styles.photoOverlayStrong} />
                 <div className={styles.pinBadge}>
                   <PinIcon />
                   Jacksonville, FL
@@ -462,9 +466,10 @@ export default function Home() {
             <div className={styles.svcRow}>
               {TAB_PANELS[activeTab].map((card) => (
                 <div className={styles.svcCard} key={card.title}>
-                  <div className={`${styles.svcPhoto} ${styles[card.photo] ?? ""}`}>
+                  <div className={styles.svcPhoto}>
+                    <Image src={card.image} alt={card.alt} fill sizes="(max-width: 900px) 50vw, 25vw" style={{ objectFit: "cover" }} />
+                    <div className={styles.photoOverlay} />
                     <span className={styles.svcBadge}>{card.badge}</span>
-                    <card.icon small />
                     <span className={styles.svcArrow}>
                       <ChevronIcon />
                     </span>
@@ -664,44 +669,6 @@ function ChevronIcon({ stroke = "currentColor" }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="2">
       <path d="M9 6l6 6-6 6" />
-    </svg>
-  );
-}
-
-function TruckIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4">
-      <rect x="3" y="8" width="13" height="10" rx="1" />
-      <path d="M16 11h3l2 3v4h-5" />
-      <circle cx="7.5" cy="19" r="1.5" />
-      <circle cx="17.5" cy="19" r="1.5" />
-    </svg>
-  );
-}
-
-function TowIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4">
-      <path d="M3 15c2-4 6-7 9-7s5 2 5 4-2 3-4 3-3-1-3-2" />
-      <circle cx="18" cy="9" r="2" />
-    </svg>
-  );
-}
-
-function BoatIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4">
-      <path d="M4 18c4 2 12 2 16 0" />
-      <path d="M12 18V6l4 3" />
-    </svg>
-  );
-}
-
-function SparkleIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" strokeWidth="1.4">
-      <path d="M9 4l1.4 4.6L15 10l-4.6 1.4L9 16l-1.4-4.6L3 10l4.6-1.4L9 4z" />
-      <path d="M17.5 13.5l.8 2.4 2.4.8-2.4.8-.8 2.4-.8-2.4-2.4-.8 2.4-.8.8-2.4z" />
     </svg>
   );
 }

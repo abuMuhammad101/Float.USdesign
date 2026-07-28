@@ -157,13 +157,6 @@
   aspect-ratio: 5 / 4;
   background: radial-gradient(circle at 30% 20%, #163a52, #0b1a2b 70%);
 }
-.waves {
-  position: absolute;
-  inset: 0;
-  opacity: 0.5;
-  width: 100%;
-  height: 100%;
-}
 .quoteChip {
   position: absolute;
   right: 20px;
@@ -248,23 +241,17 @@
 .offerPhoto {
   aspect-ratio: 4 / 3;
   position: relative;
-}
-.offerPhoto svg {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 56px;
-  height: 56px;
-  stroke: rgba(255, 255, 255, 0.85);
-}
-.p1 {
   background: linear-gradient(135deg, #12283d, #0b1a2b);
 }
-.p2 {
-  background: linear-gradient(135deg, #0d3348, #0b1a2b);
+.photoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(11, 26, 43, 0.32), rgba(11, 26, 43, 0.1));
 }
-.p3 {
-  background: linear-gradient(135deg, #123a34, #0b1a2b);
+.photoOverlayStrong {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 26, 43, 0.15) 0%, rgba(11, 26, 43, 0.25) 45%, rgba(11, 26, 43, 0.8) 100%);
 }
 .offerBody {
   padding: 22px 22px 26px;
@@ -365,14 +352,6 @@
 }
 .personaPhoto {
   position: relative;
-}
-.personaPhoto svg {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 64px;
-  height: 64px;
-  stroke: rgba(255, 255, 255, 0.85);
 }
 .personaBody {
   padding: 34px 36px;
@@ -571,14 +550,6 @@
   aspect-ratio: 3 / 4;
   position: relative;
   background: linear-gradient(160deg, #123a34, #0b1a2b);
-}
-.svcPhoto svg {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 34px;
-  height: 34px;
-  stroke: rgba(255, 255, 255, 0.85);
 }
 .svcBadge {
   position: absolute;
