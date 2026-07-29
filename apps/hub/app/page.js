@@ -44,12 +44,20 @@ const OFFER_CARDS = [
     href: towingHref,
   },
   {
-    cat: "Float fishing + detailing",
-    title: "Charters & detailing",
-    body: "Book an offshore charter or get your boat and car detailed dockside.",
+    cat: "Float fishing",
+    title: "Fishing charters",
+    body: "Book an inshore or offshore charter with a captain who knows the water.",
     image: "/images/service-fishing.jpg",
     alt: "Anglers fishing from a boat on the water",
     href: fishingHref,
+  },
+  {
+    cat: "Float detailing",
+    title: "Marine & auto detailing",
+    body: "Interior, exterior, and gel-coat detailing for your boat or car, on your schedule.",
+    image: "/images/service-detailing.jpg",
+    alt: "Crew washing and detailing a boat deck",
+    href: detailingHref,
   },
 ];
 
